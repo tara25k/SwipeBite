@@ -1,5 +1,4 @@
-export const getRestaurantData = async () => {
-    const postcode = 'EC4M7RF'; // temporarily pass in postcode - later pass in as argument?
+export const getRestaurantData = async (postcode='EC4M7RF') => {
     const url = `https://proxy.corsfix.com/?https://uk.api.just-eat.io/discovery/uk/restaurants/enriched/bypostcode/${postcode}`;
 
     try {
@@ -17,8 +16,9 @@ export const getRestaurantData = async () => {
 };
 
 
-export const processData = async (minRating, selectedCuisines) => {
-    const restaurantData = await getRestaurantData();
+export const processData = async (minRating, selectedCuisines, postcode) => {
+    const restaurantData = await getRestaurantData(postcode);
+    console.log('postcode', postcode)
   
     // format restaurant data into array of objects with relevant information
     const restaurants = restaurantData.restaurants

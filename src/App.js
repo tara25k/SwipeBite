@@ -12,6 +12,7 @@ function App() {
   const [selectedMinRating, setSelectedMinRating] = useState(3);
   const [cuisines, setCuisines] = useState([]); // list of all cuisines
   const [selectedCuisines, setSelectedCuisines] = useState([]) // list of chosen cuisine in dropdown list
+  const [postcode, setPostcode] = useState()
 
    // get restaurant data and set state
   useEffect(() => {
@@ -20,12 +21,12 @@ function App() {
       const cuisines = await getCuisines();
       setCuisines(cuisines)
 
-      const data = await processData(selectedMinRating, selectedCuisines);
+      const data = await processData(selectedMinRating, selectedCuisines, postcode);
       setRestaurantData(data);
     };
 
     fetchData();
-  }, [selectedMinRating, selectedCuisines]);
+  }, [selectedMinRating, selectedCuisines, postcode]);
 
   const cuisineOptions = cuisines.map(cuisine => ({
     value: cuisine,
@@ -39,6 +40,10 @@ function App() {
 
   }
 
+  const handlePostCodeInput = (event) => {
+    setPostcode(event.target.value);
+  }
+
 
   return (
     <Router>
@@ -49,6 +54,14 @@ function App() {
             <div>
               <h1>Welcome to Restaurant Finder!</h1>
 
+              <label htmlFor="postcodeInput">Enter PostCode: </label>
+              <input
+                type="text"
+                id="postcodeInput"
+                value={postcode}
+                onChange={handlePostCodeInput}
+              />
+              
               <label htmlFor="ratingSelect">Select Minimum Rating: </label>
               <select
                 id="ratingSelect"
