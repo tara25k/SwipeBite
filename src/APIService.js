@@ -17,7 +17,7 @@ export const getRestaurantData = async () => {
 };
 
 
-export const processData = async () => {
+export const processData = async (minRating) => {
     const restaurantData = await getRestaurantData();
   
     // format restaurant data into array of objects with relevant information
@@ -29,6 +29,9 @@ export const processData = async () => {
         city: restaurant.address.city,
         firstLine: restaurant.address.firstLine,
       }))
+      .filter((restaurant) => {
+        return typeof restaurant.rating === "number" && restaurant.rating >= minRating;
+      })
 
     const slicedData = restaurants.slice(0, 11) // get first 10 objects
   
