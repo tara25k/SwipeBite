@@ -3,9 +3,10 @@ import TinderCard from 'react-tinder-card'
 
 
 
-function SwipeCard ({restaurantData, setRestaurantData, savedRestaurants, setSavedRestaurants}) {
+function SwipeCard ({restaurantData, setRestaurantData, savedRestaurants, setSavedRestaurants, }) {
   const [currentIndex, setCurrentIndex] = useState(restaurantData.length)
   const [lastDirection, setLastDirection] = useState()
+  
   
 
   const currentIndexRef = useRef(currentIndex)
@@ -28,11 +29,6 @@ function SwipeCard ({restaurantData, setRestaurantData, savedRestaurants, setSav
   useEffect(() => {
     updateCurrentIndex(restaurantData.length - 1)
   }, [restaurantData]);
-
-  // printing for debugging - checking the saved restaurants actually saves (DELETE LATER)
-  useEffect(() => {
-    console.log("saved restaurants", savedRestaurants)
-  }, [savedRestaurants]);
 
   const canGoBack = currentIndex < restaurantData.length - 1
   const canSwipe = currentIndex >= 0
@@ -91,7 +87,8 @@ function SwipeCard ({restaurantData, setRestaurantData, savedRestaurants, setSav
               style={{ backgroundColor: 'orange'}}
               className='card'
             >
-              <h3>{restaurant.name}</h3> 
+              <h3>{restaurant.name}</h3> <br></br>
+              <p>Rating: {restaurant.rating}</p>
             </div>
           </TinderCard>
         ))}
