@@ -1,44 +1,22 @@
-import React, { useState, useMemo, useRef } from 'react'
+import React, { useState, useMemo, useRef, useEffect} from 'react'
 import TinderCard from 'react-tinder-card'
 
-const db = [
-  {
-    name: 'Richard Hendricks',
-    url: './img/richard.jpg'
-  },
-  {
-    name: 'Erlich Bachman',
-    url: './img/erlich.jpg'
-  },
-  {
-    name: 'Monica Hall',
-    url: './img/monica.jpg'
-  },
-  {
-    name: 'Jared Dunn',
-    url: './img/jared.jpg'
-  },
-  {
-    name: 'Dinesh Chugtai',
-    url: './img/dinesh.jpg'
-  }
-]
+
 
 function SwipeCard ({restaurantData, setRestaurantData}) {
-  const [currentIndex, setCurrentIndex] = useState(db.length - 1)
+  const [currentIndex, setCurrentIndex] = useState(restaurantData.length)
   const [lastDirection, setLastDirection] = useState()
-
-  console.log('Restaurant Data', restaurantData) // initially just check that the data is loaded in correctly
 
   // used for outOfFrame closure
   const currentIndexRef = useRef(currentIndex)
 
+
   const childRefs = useMemo(
     () =>
-      Array(db.length)
+      Array(restaurantData.length)
         .fill(0)
         .map((i) => React.createRef()),
-    []
+    [restaurantData]
   )
 
   const updateCurrentIndex = (val) => {
@@ -46,8 +24,15 @@ function SwipeCard ({restaurantData, setRestaurantData}) {
     currentIndexRef.current = val
   }
 
-  const canGoBack = currentIndex < db.length - 1
+  // useEffect to set currentIndex to restaurantData length when data is loaded in
+  // (to account for occasional delay in loading data)
+  useEffect(() => {
+    updateCurrentIndex(restaurantData.length - 1)
+  }, [restaurantData]);
 
+  const canGoBack = currentIndex < restaurantData.length - 1
+
+  console.log('current index', currentIndex)
   const canSwipe = currentIndex >= 0
 
   // set last direction and decrease current index
@@ -66,7 +51,7 @@ function SwipeCard ({restaurantData, setRestaurantData}) {
   }
 
   const swipe = async (dir) => {
-    if (canSwipe && currentIndex < db.length) {
+    if (canSwipe && currentIndex < restaurantData.length) {
       await childRefs[currentIndex].current.swipe(dir) // Swipe the card!
     }
   }
@@ -82,19 +67,19 @@ function SwipeCard ({restaurantData, setRestaurantData}) {
   return (
     <div>
       <div className='cardContainer'>
-        {db.map((character, index) => (
+        {restaurantData.map((restaurant, index) => (
           <TinderCard
             ref={childRefs[index]}
             className='swipe'
-            key={character.name}
-            onSwipe={(dir) => swiped(dir, character.name, index)}
-            onCardLeftScreen={() => outOfFrame(character.name, index)}
+            key={`${restaurant.name}-${index}`}
+            onSwipe={(dir) => swiped(dir, restaurant.name, index)}
+            onCardLeftScreen={() => outOfFrame(restaurant.name, index)}
           >
             <div
-              style={{ backgroundImage: 'url(' + character.url + ')' }}
+              style={{ backgroundColor: 'orange'}}
               className='card'
             >
-              <h3>{character.name}</h3>
+              <h3>{restaurant.name}</h3> 
             </div>
           </TinderCard>
         ))}
