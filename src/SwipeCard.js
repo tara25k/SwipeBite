@@ -97,6 +97,8 @@ function SwipeCard ({restaurantData, setRestaurantData, savedRestaurants, setSav
                   <li key={index}>{cuisine}</li>
                 ))}
               </ul>
+
+              <p>Address: {restaurant.city}, {restaurant.firstLine}</p>
             </div>
           </TinderCard>
         ))}
