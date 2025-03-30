@@ -6,10 +6,9 @@ import TinderCard from 'react-tinder-card'
 function SwipeCard ({restaurantData, setRestaurantData}) {
   const [currentIndex, setCurrentIndex] = useState(restaurantData.length)
   const [lastDirection, setLastDirection] = useState()
+  const [savedRestaurants, setSavedRestaurants] = useState([])
 
-  // used for outOfFrame closure
   const currentIndexRef = useRef(currentIndex)
-
 
   const childRefs = useMemo(
     () =>
@@ -30,15 +29,23 @@ function SwipeCard ({restaurantData, setRestaurantData}) {
     updateCurrentIndex(restaurantData.length - 1)
   }, [restaurantData]);
 
-  const canGoBack = currentIndex < restaurantData.length - 1
+  // printing for debugging - checking the saved restaurants actually saves (DELETE LATER)
+  useEffect(() => {
+    console.log("saved restaurants", savedRestaurants)
+  }, [savedRestaurants]);
 
-  console.log('current index', currentIndex)
+  const canGoBack = currentIndex < restaurantData.length - 1
   const canSwipe = currentIndex >= 0
 
   // set last direction and decrease current index
-  const swiped = (direction, nameToDelete, index) => {
+  const swiped = (direction, restaurant, index) => {
     setLastDirection(direction)
     updateCurrentIndex(index - 1)
+
+    // if swiped left (i.e. saved), add restaurant to saved restaurants
+    if (direction == 'left') {
+      setSavedRestaurants((prev) => [...prev, restaurant])
+    }
   }
 
   const outOfFrame = (name, idx) => {
@@ -72,7 +79,7 @@ function SwipeCard ({restaurantData, setRestaurantData}) {
             ref={childRefs[index]}
             className='swipe'
             key={`${restaurant.name}-${index}`}
-            onSwipe={(dir) => swiped(dir, restaurant.name, index)}
+            onSwipe={(dir) => swiped(dir, restaurant, index)}
             onCardLeftScreen={() => outOfFrame(restaurant.name, index)}
           >
             <div
