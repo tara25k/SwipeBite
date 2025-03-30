@@ -68,6 +68,11 @@ function SwipeCard ({restaurantData, setRestaurantData, savedRestaurants, setSav
     if (!canGoBack) return
     const newIndex = currentIndex + 1
     updateCurrentIndex(newIndex)
+
+    // if last restaurant was saved, undo the save
+    const restoredRestaurant = restaurantData[newIndex]; // get last restaurant
+    setSavedRestaurants((prev) => prev.filter((r) => r.name !== restoredRestaurant.name)); // removed from savedRestaurants if it was there
+
     await childRefs[newIndex].current.restoreCard()
   }
 
