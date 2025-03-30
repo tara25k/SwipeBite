@@ -17,7 +17,7 @@ export const getRestaurantData = async () => {
 };
 
 
-export const processData = async (minRating) => {
+export const processData = async (minRating, selectedCuisines) => {
     const restaurantData = await getRestaurantData();
   
     // format restaurant data into array of objects with relevant information
@@ -32,8 +32,37 @@ export const processData = async (minRating) => {
       .filter((restaurant) => {
         return typeof restaurant.rating === "number" && restaurant.rating >= minRating;
       })
+      .filter((restaurant) => {
+        if (selectedCuisines.length === 0) {
+          return true; // if no cuisines are selected, return all restaurants
+        }
+        return selectedCuisines.some(cuisine => restaurant.cuisines.includes(cuisine));
+      });
 
     const slicedData = restaurants.slice(0, 11) // get first 10 objects
   
     return slicedData;
   }
+
+export const getCuisines = async () => {
+    const restaurantData = await getRestaurantData();
+
+    const allCuisines = []; // stores names of all cuisines
+    
+    // add each cuisine to list
+    for (const restaurant of restaurantData.restaurants) {
+        if (restaurant.cuisines && Array.isArray(restaurant.cuisines)) {
+          for (const cuisine of restaurant.cuisines) {
+            if (!allCuisines.includes(cuisine.name)) { // to ensure no duplicates
+              allCuisines.push(cuisine.name);
+            }
+          }
+        } else {
+          console.log("no cuisines found for restaurant:", restaurant.name); // for error debugging
+        }
+      }
+
+    
+    return allCuisines;
+  };
+  
