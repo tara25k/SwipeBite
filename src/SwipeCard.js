@@ -24,9 +24,12 @@ const db = [
   }
 ]
 
-function SwipeCard () {
+function SwipeCard ({restaurantData, setRestaurantData}) {
   const [currentIndex, setCurrentIndex] = useState(db.length - 1)
   const [lastDirection, setLastDirection] = useState()
+
+  console.log('Restaurant Data', restaurantData) // initially just check that the data is loaded in correctly
+
   // used for outOfFrame closure
   const currentIndexRef = useRef(currentIndex)
 
