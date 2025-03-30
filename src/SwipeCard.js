@@ -3,10 +3,10 @@ import TinderCard from 'react-tinder-card'
 
 
 
-function SwipeCard ({restaurantData, setRestaurantData}) {
+function SwipeCard ({restaurantData, setRestaurantData, savedRestaurants, setSavedRestaurants}) {
   const [currentIndex, setCurrentIndex] = useState(restaurantData.length)
   const [lastDirection, setLastDirection] = useState()
-  const [savedRestaurants, setSavedRestaurants] = useState([])
+  
 
   const currentIndexRef = useRef(currentIndex)
 
