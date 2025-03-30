@@ -88,7 +88,15 @@ function SwipeCard ({restaurantData, setRestaurantData, savedRestaurants, setSav
               className='card'
             >
               <h3>{restaurant.name}</h3> <br></br>
-              <p>Rating: {restaurant.rating}</p>
+
+              <p>Rating: {restaurant.rating}</p><br></br>
+
+              <p>Cuisines:</p>
+                <ul>
+                {restaurant.cuisines.map((cuisine, index) => (
+                  <li key={index}>{cuisine}</li>
+                ))}
+              </ul>
             </div>
           </TinderCard>
         ))}
