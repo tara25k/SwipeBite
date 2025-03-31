@@ -6,9 +6,6 @@ import TinderCard from 'react-tinder-card'
 function SwipeCard ({restaurantData, setRestaurantData, savedRestaurants, setSavedRestaurants, 
   currentIndex, setCurrentIndex, swipedRestaurants, setSwipedRestaurants, visibleRestaurants, setVisibleRestaurants
 }) {
-  const [lastDirection, setLastDirection] = useState()
-  
-
   const currentIndexRef = useRef(currentIndex)
 
   const childRefs = useMemo(
@@ -44,7 +41,6 @@ function SwipeCard ({restaurantData, setRestaurantData, savedRestaurants, setSav
     setSwipedRestaurants((prev) => [...prev, restaurant]);
     setVisibleRestaurants((prev) => prev.filter((r) => r.name !== restaurant.name))
 
-    setLastDirection(direction)
     updateCurrentIndex(index - 1)
 
     // if swiped left (i.e. saved), add restaurant to saved restaurants
