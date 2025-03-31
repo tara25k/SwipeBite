@@ -41,11 +41,15 @@ export const processData = async (sortByRating, minRating, selectedCuisines, pos
 
     restaurants.sort((a, b) => {
         if (sortByRating) {
-          if (a.rating === "No reviews" && b.rating === "No reviews") return 0;
+          // treat 'no reviews' as having a lower rating
+          if (a.rating === "No reviews" && b.rating === "No reviews") return 0; 
           if (a.rating === "No reviews") return 1;  
           if (b.rating === "No reviews") return -1; 
+          
+          // otherwise return sorting as usual
           return b.rating - a.rating; 
-        } else {
+
+        } else { // sorting by reviews instead
             return b.numReviews - a.numReviews; 
         }
     });
