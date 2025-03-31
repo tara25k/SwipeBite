@@ -45,7 +45,16 @@ function App() {
   }
 
   const handlePostCodeInput = (event) => {
-    setPostcode(event.target.value);
+    // very clunky postcode checks - could make these more robust
+    let postcode = event.target.value;
+
+    postcode = postcode.replace(/\s+/g, '').replace(/[^a-zA-Z0-9]/g, ''); // remove any spaces and non-alphanumeric characters
+
+    if (postcode.length > 7) {
+      postcode = postcode.slice(0, 7); // only take first 7 characters
+    }
+
+    setPostcode(postcode);
   }
 
 
