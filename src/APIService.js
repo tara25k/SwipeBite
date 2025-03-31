@@ -16,7 +16,7 @@ export const getRestaurantData = async (postcode='EC4M7RF') => {
 };
 
 
-export const processData = async (minRating, selectedCuisines, postcode) => {
+export const processData = async (sortByRating, minRating, selectedCuisines, postcode) => {
     const restaurantData = await getRestaurantData(postcode);
   
     // format restaurant data into array of objects with relevant information
@@ -24,6 +24,7 @@ export const processData = async (minRating, selectedCuisines, postcode) => {
       .map((restaurant) => ({
         name: restaurant.name, 
         rating: restaurant.rating.count > 0 ? restaurant.rating.starRating : "No reviews", // to not misrepresent restaurants with no reviews as bad
+        numReviews: restaurant.rating.count,
         cuisines: restaurant.cuisines.map((cuisine) => cuisine.name), 
         city: restaurant.address.city,
         firstLine: restaurant.address.firstLine,
@@ -37,6 +38,17 @@ export const processData = async (minRating, selectedCuisines, postcode) => {
         }
         return selectedCuisines.some(cuisine => restaurant.cuisines.includes(cuisine));
       });
+
+    restaurants.sort((a, b) => {
+        if (sortByRating) {
+          if (a.rating === "No reviews" && b.rating === "No reviews") return 0;
+          if (a.rating === "No reviews") return 1;  
+          if (b.rating === "No reviews") return -1; 
+          return b.rating - a.rating; 
+        } else {
+            return b.numReviews - a.numReviews; 
+        }
+    });
 
     const slicedData = restaurants.slice(0, 11) // get first 10 objects
   

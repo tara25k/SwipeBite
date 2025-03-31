@@ -16,6 +16,7 @@ function App() {
   const [swipedRestaurants, setSwipedRestaurants] = useState([])
   const [visibleRestaurants, setVisibleRestaurants] = useState([])
   const [currentIndex, setCurrentIndex] = useState(restaurants.length - 1)
+  const [sortByRating, setSortByRating] = useState(true)
 
    // get restaurant data and set state
   useEffect(() => {
@@ -24,13 +25,13 @@ function App() {
       const cuisines = await getCuisines();
       setCuisines(cuisines)
 
-      const data = await processData(selectedMinRating, selectedCuisines, postcode);
+      const data = await processData(sortByRating, selectedMinRating, selectedCuisines, postcode);
       setRestaurantData(data);
       setCurrentIndex(restaurants.length - 1)
     };
 
     fetchData();
-  }, [selectedMinRating, selectedCuisines, postcode]);
+  }, [sortByRating, selectedMinRating, selectedCuisines, postcode]);
 
   const cuisineOptions = cuisines.map(cuisine => ({
     value: cuisine,
@@ -74,6 +75,16 @@ function App() {
                 value={postcode}
                 onChange={handlePostCodeInput}
               />
+
+            <label htmlFor="sortBy">Select Minimum Rating: </label>
+              <select
+                id="sortBy"
+                value={sortByRating}
+                onChange={(e) => setSortByRating(Number(e.target.value))} 
+              >
+                <option value={true}>Highest Rated</option>
+                <option value={false}>Most Reviewed</option>
+              </select>
               
               <label htmlFor="ratingSelect">Select Minimum Rating: </label>
               <select
@@ -81,6 +92,7 @@ function App() {
                 value={selectedMinRating}
                 onChange={(e) => setSelectedMinRating(Number(e.target.value))} 
               >
+                <option value={0}>0 Stars</option>
                 <option value={1}>1 Star</option>
                 <option value={2}>2 Stars</option>
                 <option value={3}>3 Stars</option>
