@@ -3,20 +3,20 @@ import TinderCard from 'react-tinder-card'
 
 
 
-function SwipeCard ({restaurantData, setRestaurantData, savedRestaurants, setSavedRestaurants, }) {
-  const [currentIndex, setCurrentIndex] = useState(restaurantData.length)
+function SwipeCard ({restaurantData, setRestaurantData, savedRestaurants, setSavedRestaurants, 
+  currentIndex, setCurrentIndex, swipedRestaurants, setSwipedRestaurants, visibleRestaurants, setVisibleRestaurants
+}) {
   const [lastDirection, setLastDirection] = useState()
-  
   
 
   const currentIndexRef = useRef(currentIndex)
 
   const childRefs = useMemo(
     () =>
-      Array(restaurantData.length)
+      Array(visibleRestaurants.length)
         .fill(0)
         .map((i) => React.createRef()),
-    [restaurantData]
+    [visibleRestaurants]
   )
 
   const updateCurrentIndex = (val) => {
@@ -27,14 +27,23 @@ function SwipeCard ({restaurantData, setRestaurantData, savedRestaurants, setSav
   // useEffect to set currentIndex to restaurantData length when data is loaded in
   // (to account for occasional delay in loading data)
   useEffect(() => {
-    updateCurrentIndex(restaurantData.length - 1)
+    if (currentIndex == -1){
+      updateCurrentIndex(restaurantData.length - 1)
+    }
   }, [restaurantData]);
+
+  useEffect(() => {
+    setVisibleRestaurants(restaurantData.filter((r) => !swipedRestaurants.includes(r)));
+  }, [restaurantData, swipedRestaurants])
 
   const canGoBack = currentIndex < restaurantData.length - 1
   const canSwipe = currentIndex >= 0
 
   // set last direction and decrease current index
   const swiped = (direction, restaurant, index) => {
+    setSwipedRestaurants((prev) => [...prev, restaurant]);
+    setVisibleRestaurants((prev) => prev.filter((r) => r.name !== restaurant.name))
+
     setLastDirection(direction)
     updateCurrentIndex(index - 1)
 
@@ -46,36 +55,47 @@ function SwipeCard ({restaurantData, setRestaurantData, savedRestaurants, setSav
 
   const outOfFrame = (name, idx) => {
     console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current)
-    // handle the case in which go back is pressed before card goes outOfFrame
-    currentIndexRef.current >= idx && childRefs[idx].current.restoreCard()
-    // TODO: when quickly swipe and restore multiple times the same card,
-    // it happens multiple outOfFrame events are queued and the card disappear
-    // during latest swipes. Only the last outOfFrame event should be considered valid
   }
 
   const swipe = async (dir) => {
-    if (canSwipe && currentIndex < restaurantData.length) {
-      await childRefs[currentIndex].current.swipe(dir) // Swipe the card!
+    const cardRef = childRefs[currentIndex]?.current;
+    if (cardRef) {
+      await cardRef.swipe(dir);
+    } else {
+      console.warn('Card reference is invalid ', currentIndex, childRefs)
     }
   }
 
   // increase current index and show card
   const goBack = async () => {
     if (!canGoBack) return
-    const newIndex = currentIndex + 1
-    updateCurrentIndex(newIndex)
 
-    // if last restaurant was saved, undo the save
-    const restoredRestaurant = restaurantData[newIndex]; // get last restaurant
-    setSavedRestaurants((prev) => prev.filter((r) => r.name !== restoredRestaurant.name)); // removed from savedRestaurants if it was there
+    const lastSwiped = swipedRestaurants[swipedRestaurants.length - 1];
 
-    await childRefs[newIndex].current.restoreCard()
+    if (lastSwiped) {
+      setSwipedRestaurants((prev) => prev.slice(0, -1)); 
+      setVisibleRestaurants((prev) => [lastSwiped, ...prev]); 
+
+      const newIndex = currentIndex + 1;
+      updateCurrentIndex(newIndex);
+
+      setSavedRestaurants((prev) => prev.filter((r) => r.name !== lastSwiped.name));
+
+      const cardRef = childRefs[newIndex]?.current; // Safely access the ref
+      if (cardRef) {
+        await cardRef.restoreCard();
+      } else {
+        console.warn('Card reference is invalid at goBack', newIndex, childRefs);
+      }
+    } else {
+      console.warn('No swiped restaurants to go back to');
+    }
   }
 
   return (
     <div>
       <div className='cardContainer'>
-        {restaurantData.map((restaurant, index) => (
+        {visibleRestaurants.map((restaurant, index) => (
           <TinderCard
             ref={childRefs[index]}
             className='swipe'

@@ -13,6 +13,9 @@ function App() {
   const [cuisines, setCuisines] = useState([]); // list of all cuisines
   const [selectedCuisines, setSelectedCuisines] = useState([]) // list of chosen cuisine in dropdown list
   const [postcode, setPostcode] = useState()
+  const [swipedRestaurants, setSwipedRestaurants] = useState([])
+  const [visibleRestaurants, setVisibleRestaurants] = useState([])
+  const [currentIndex, setCurrentIndex] = useState(restaurants.length - 1)
 
    // get restaurant data and set state
   useEffect(() => {
@@ -23,6 +26,7 @@ function App() {
 
       const data = await processData(selectedMinRating, selectedCuisines, postcode);
       setRestaurantData(data);
+      setCurrentIndex(restaurants.length - 1)
     };
 
     fetchData();
@@ -99,6 +103,12 @@ function App() {
               setRestaurantData={setRestaurantData}
               savedRestaurants={savedRestaurants}
               setSavedRestaurants={setSavedRestaurants}
+              swipedRestaurants={swipedRestaurants}
+              setSwipedRestaurants={setSwipedRestaurants}
+              visibleRestaurants={visibleRestaurants}
+              setVisibleRestaurants={setVisibleRestaurants}
+              currentIndex={currentIndex}
+              setCurrentIndex={setCurrentIndex}
             />
           }
         />
