@@ -40,7 +40,6 @@
 }
 
 h1 {
-  font-family: 'Damion', cursive;
   color: #fff;
   text-shadow: 0px 0px 60px 0px rgba(0,0,0,0.30);
 }
@@ -57,6 +56,10 @@ h2 {
   width: 90vw;
   max-width: 260px;
   height: 300px;
+  justify-content: center;
+  display: flex;
+  position: relative;
+  margin-left: 28%
 }
 
 .card {
@@ -68,6 +71,12 @@ h2 {
   border-radius: 20px;
   background-size: cover;
   background-position: center;
+  overflow: hidden;
+  display: flex; 
+  flex-direction: column; 
+  justify-content: flex-start;;
+  padding: 10px;
+  overflow-y: auto;
 }
 
 .cardContent {
@@ -75,15 +84,42 @@ h2 {
   height: 100%;
 }
 
-.swipe:last-of-type {
-
+#address {
+  bottom: 0;
 }
 
 .card h3 {
-  position: absolute;
-  bottom: 0;
-  margin: 10px;
+  margin: 5px 0;
   color: #fff;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal; 
+}
+
+.card h3 {
+  margin-top: 20px;
+  margin: 10px 0 5px;
+  top: 0
+}
+
+#rating {
+  margin-top: 0;
+  margin-left: 2px;
+  font-size: 15px;
+  font-weight: bold;
+  text-align: left;
+  color: white;
+}
+
+#cuisines {
+  margin: 0;
+  
+}
+
+.card li {
+  word-wrap: break-word;
+  text-align: center;
+
 }
 
 .infoText {
@@ -134,4 +170,76 @@ h2 {
   57%  { transform: scale(1,1) }
   64%  { transform: scale(1,1) }
   100% { transform: scale(1,1) }
+}
+
+.filtersContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.filterSelect, select, #cuisineSelect, #postcodeInput {
+  padding: 8px 12px;
+  border-radius: 20px;
+  background-color: white;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+label{
+  margin-bottom: 5px;
+  font-weight:'bold';
+  font-size:18px;
+  color: white;
+}
+
+.savedRestaurantsContainer {
+  text-align: center;
+  padding: 20px;
+}
+
+.restaurantGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Exactly 3 columns per row */
+  gap: 15px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .restaurantGrid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on tablets */
+  }
+}
+
+@media (max-width: 500px) {
+  .restaurantGrid {
+    grid-template-columns: repeat(1, 1fr); /* 1 column on small screens */
+  }
+}
+.restaurantCard {
+  background-color: lightgreen;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid #9198e5;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  color: #333;
+  transition: transform 0.2s ease;
+}
+
+.restaurantCard:hover {
+  transform: scale(1.05);
+  border-color: #e66465;
 }

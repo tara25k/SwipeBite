@@ -6,7 +6,9 @@ function NavBar() {
 
   return (
     <nav>
-      <button onClick={() => navigate("/saved")}>Saved Restaurants</button>
+       <div className='buttons'>
+      <button style={{backgroundColor: '#689c09'}}onClick={() => navigate("/saved")}>Saved Restaurants</button>
+      </div>
     </nav>
   );
 }

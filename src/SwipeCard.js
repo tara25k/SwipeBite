@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useRef, useEffect} from 'react'
 import TinderCard from 'react-tinder-card'
+import ReactScrollableList from 'react-scrollable-list'
 
 function SwipeCard ({restaurantData, setRestaurantData, savedRestaurants, setSavedRestaurants, 
   currentIndex, setCurrentIndex, swipedRestaurants, setSwipedRestaurants, visibleRestaurants, setVisibleRestaurants
@@ -13,6 +14,7 @@ function SwipeCard ({restaurantData, setRestaurantData, savedRestaurants, setSav
 
   // currentIndex stores where we currently are in the 'restaurant cards'
   const currentIndexRef = useRef(currentIndex)
+  
 
   // childRefs refers to the indices for each 'restaurant card'
   const childRefs = useMemo(
@@ -40,7 +42,7 @@ function SwipeCard ({restaurantData, setRestaurantData, savedRestaurants, setSav
     setVisibleRestaurants(restaurantData.filter((r) => !swipedRestaurants.includes(r)));
   }, [restaurantData, swipedRestaurants])
 
-  const canGoBack = currentIndex < restaurantData.length - 1 // if true, user can undo swipe
+  const canGoBack = currentIndex <= restaurantData.length - 1 // if true, user can undo swipe
   const canSwipe = currentIndex >= 0 // only false when at end of deck
 
   // called after successful swiping action
@@ -111,26 +113,43 @@ function SwipeCard ({restaurantData, setRestaurantData, savedRestaurants, setSav
               style={{ backgroundColor: 'orange'}}
               className='card'
             >
-              <h3>{restaurant.name}</h3> <br></br>
+              <h3>{restaurant.name}</h3>
 
-              <p>Rating: {restaurant.rating}</p><br></br>
+              <p id='rating'>Rating: {restaurant.rating}⭐</p>
 
-              <p>Cuisines:</p>
-                <ul>
-                {restaurant.cuisines.map((cuisine, index) => (
-                  <li key={index}>{cuisine}</li>
-                ))}
-              </ul>
+              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+              <img style={{ width: '200px', height: '100px', padding:'5px'}} src="https://staticcookist.akamaized.net/wp-content/uploads/sites/22/2021/09/beef-burger.jpg?im=AspectCrop=(16,9);" alt="image" />
+            </div>
 
-              <p>Address: {restaurant.city}, {restaurant.firstLine}</p>
+
+              {/* <p id='cuisines'>Cuisines:</p> */}
+              <div style={{ 
+              height: `${90 * 3}px`, // Only enough space for 3 items
+              overflowY: 'auto', // Enables scrolling
+              border: '1px solid #ccc', // Optional: Visual clarity
+              padding: '5px',
+              backgroundColor: '#ffb459',
+              }}>
+              <ReactScrollableList
+                listItems={restaurant.cuisines.map((cuisine, index) => ({
+                  id: index, // Unique ID
+                  content: cuisine // The cuisine name
+                }))}
+                heightOfItem={90}  
+                maxItemsToRender={10} // Keep it larger than 3 to avoid cut-off behavior
+                style={{ color: '#333' }}
+              />
+            </div>
+
+              <p id='address'><b>Address:</b> {restaurant.city}, {restaurant.firstLine}</p>
             </div>
           </TinderCard>
         ))}
       </div>
       <div className='buttons'>
-        <button style={{ backgroundColor: !canSwipe && '#c3c4d3' }} onClick={() => swipe('left')}>Swipe left!</button>
+        <button style={{ backgroundColor: !canSwipe && '#c3c4d3' }} onClick={() => swipe('left')}>Save!</button>
         <button style={{ backgroundColor: !canGoBack && '#c3c4d3' }} onClick={() => goBack()}>Undo swipe!</button>
-        <button style={{ backgroundColor: !canSwipe && '#c3c4d3' }} onClick={() => swipe('right')}>Swipe right!</button>
+        <button style={{ backgroundColor: !canSwipe && '#c3c4d3' }} onClick={() => swipe('right')}>Nope</button>
       </div>
     </div>
   )

@@ -76,41 +76,53 @@ function App() {
                 onChange={handlePostCodeInput}
               />
 
-            <label htmlFor="sortBy">Select Minimum Rating: </label>
-              <select
-                id="sortBy"
-                value={sortByRating}
-                onChange={(e) => setSortByRating(Number(e.target.value))} 
-              >
-                <option value={true}>Highest Rated</option>
-                <option value={false}>Most Reviewed</option>
-              </select>
-              
-              <label htmlFor="ratingSelect">Select Minimum Rating: </label>
-              <select
-                id="ratingSelect"
-                value={selectedMinRating}
-                onChange={(e) => setSelectedMinRating(Number(e.target.value))} 
-              >
-                <option value={0}>0 Stars</option>
-                <option value={1}>1 Star</option>
-                <option value={2}>2 Stars</option>
-                <option value={3}>3 Stars</option>
-                <option value={4}>4 Stars</option>
-                <option value={5}>5 Stars</option>
-              </select>
+            <div className="filtersContainer">
+                <div className="inputGroup">
+                  <label htmlFor="sortBy">Sort By:</label>
+                  <select
+                    id="sortBy"
+                    value={sortByRating}
+                    onChange={(e) => setSortByRating(e.target.value === "true")}
+                    className="filterSelect"
+                  >
+                    <option value={true}>Highest Rated</option>
+                    <option value={false}>Most Reviewed</option>
+                  </select>
+                </div>
 
-              <label htmlFor="cuisineSelect">Select Cuisines: </label>
+                <div className="inputGroup">
+                  <label htmlFor="ratingSelect">Min Rating:</label>
+                  <select
+                    id="ratingSelect"
+                    value={selectedMinRating}
+                    onChange={(e) => setSelectedMinRating(Number(e.target.value))}
+                    className="filterSelect"
+                  >
+                    {[0, 1, 2, 3, 4, 5].map((rating) => (
+                      <option key={rating} value={rating}>
+                        {rating} Star{rating !== 1 ? "s" : ""}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
-              <Select 
-              id="cuisineSelect"
-                options={cuisineOptions} 
-                isMulti={true}
-                onChange={handleCuisineSelect}
-              />
+                <div className="inputGroup">
+                  <label htmlFor="cuisineSelect">Cuisines:</label>
+                  <Select
+                    id="cuisineSelect"
+                    options={cuisineOptions}
+                    isMulti={true}
+                    onChange={handleCuisineSelect}
+                    className="filterSelect"
+                  />
+                </div>
+              </div>
+
 
               <Link to="/main">
+                <div class='buttons'>
                 <button>Start Swiping</button>
+                </div>
               </Link>
             </div>
           }
