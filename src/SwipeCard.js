@@ -1,13 +1,20 @@
 import React, { useState, useMemo, useRef, useEffect} from 'react'
 import TinderCard from 'react-tinder-card'
 
-
-
 function SwipeCard ({restaurantData, setRestaurantData, savedRestaurants, setSavedRestaurants, 
   currentIndex, setCurrentIndex, swipedRestaurants, setSwipedRestaurants, visibleRestaurants, setVisibleRestaurants
 }) {
+  // QUICK RUNDOWN
+  // restaurantData - array of objects, one object for each restaurant
+  // savedRestaurants - array of restaurant objects that the user has saved
+  // swipedRestaurants - restaurants the user has already swiped past
+  // visible restaurants - restaurants the user hasn't swiped past
+
+
+  // currentIndex stores where we currently are in the 'restaurant cards'
   const currentIndexRef = useRef(currentIndex)
 
+  // childRefs refers to the indices for each 'restaurant card'
   const childRefs = useMemo(
     () =>
       Array(visibleRestaurants.length)
@@ -21,23 +28,24 @@ function SwipeCard ({restaurantData, setRestaurantData, savedRestaurants, setSav
     currentIndexRef.current = val
   }
 
-  // useEffect to set currentIndex to restaurantData length when data is loaded in
-  // (to account for occasional delay in loading data)
+  // to set currentIndex to restaurantData length when data is loaded in (to account for occasional delay in loading data)
   useEffect(() => {
     if (currentIndex == -1){
       updateCurrentIndex(restaurantData.length - 1)
     }
   }, [restaurantData]);
 
+  // makes sure visibleRestaurants only contains restaurants not swiped yet
   useEffect(() => {
     setVisibleRestaurants(restaurantData.filter((r) => !swipedRestaurants.includes(r)));
   }, [restaurantData, swipedRestaurants])
 
-  const canGoBack = currentIndex < restaurantData.length - 1
-  const canSwipe = currentIndex >= 0
+  const canGoBack = currentIndex < restaurantData.length - 1 // if true, user can undo swipe
+  const canSwipe = currentIndex >= 0 // only false when at end of deck
 
-  // set last direction and decrease current index
+  // called after successful swiping action
   const swiped = (direction, restaurant, index) => {
+    // update swiped and visible restaurants and current index
     setSwipedRestaurants((prev) => [...prev, restaurant]);
     setVisibleRestaurants((prev) => prev.filter((r) => r.name !== restaurant.name))
 
@@ -49,10 +57,7 @@ function SwipeCard ({restaurantData, setRestaurantData, savedRestaurants, setSav
     }
   }
 
-  const outOfFrame = (name, idx) => {
-    console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current)
-  }
-
+  // on swiping to ensure correct card is being swiped
   const swipe = async (dir) => {
     const cardRef = childRefs[currentIndex]?.current;
     if (cardRef) {
@@ -62,21 +67,25 @@ function SwipeCard ({restaurantData, setRestaurantData, savedRestaurants, setSav
     }
   }
 
-  // increase current index and show card
+  // called when 'undo swipe' button is clicked
   const goBack = async () => {
     if (!canGoBack) return
 
+    // get last swiped card to display
     const lastSwiped = swipedRestaurants[swipedRestaurants.length - 1];
 
     if (lastSwiped) {
+      // update swiped and visible restaurants
       setSwipedRestaurants((prev) => prev.slice(0, -1)); 
       setVisibleRestaurants((prev) => [lastSwiped, ...prev]); 
 
       const newIndex = currentIndex + 1;
       updateCurrentIndex(newIndex);
 
+      // remove from saved restaurants if it was saved
       setSavedRestaurants((prev) => prev.filter((r) => r.name !== lastSwiped.name));
 
+      // restore card or log warnings
       const cardRef = childRefs[newIndex]?.current; // Safely access the ref
       if (cardRef) {
         await cardRef.restoreCard();
@@ -97,7 +106,6 @@ function SwipeCard ({restaurantData, setRestaurantData, savedRestaurants, setSav
             className='swipe'
             key={`${restaurant.name}-${index}`}
             onSwipe={(dir) => swiped(dir, restaurant, index)}
-            onCardLeftScreen={() => outOfFrame(restaurant.name, index)}
           >
             <div
               style={{ backgroundColor: 'orange'}}
