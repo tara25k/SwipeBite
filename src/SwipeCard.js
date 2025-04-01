@@ -37,13 +37,9 @@ function SwipeCard ({restaurantData, setRestaurantData, savedRestaurants, setSav
 
 
 
-  
-
   // to set currentIndex to restaurantData length when data is loaded in (to account for occasional delay in loading data)
   useEffect(() => {
-    if (currentIndex == -1){
-      updateCurrentIndex(restaurantData.length - 1)
-    }
+    updateCurrentIndex(restaurantData.length - 1)
   }, [restaurantData]);
 
   // makes sure visibleRestaurants only contains restaurants not swiped yet
