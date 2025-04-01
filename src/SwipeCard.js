@@ -1,10 +1,15 @@
 import React, { useState, useMemo, useRef, useEffect} from 'react'
 import TinderCard from 'react-tinder-card'
+import { useNavigate } from "react-router-dom";
 import ReactScrollableList from 'react-scrollable-list'
 
 function SwipeCard ({restaurantData, setRestaurantData, savedRestaurants, setSavedRestaurants, 
-  currentIndex, setCurrentIndex, swipedRestaurants, setSwipedRestaurants, visibleRestaurants, setVisibleRestaurants
+  currentIndex, setCurrentIndex, swipedRestaurants, setSwipedRestaurants, visibleRestaurants, setVisibleRestaurants, setFetchedData, isDeckEmpty, setIsDeckEmpty
 }) {
+
+  const navigate = useNavigate();
+  setFetchedData(false)
+
   // QUICK RUNDOWN
   // restaurantData - array of objects, one object for each restaurant
   // savedRestaurants - array of restaurant objects that the user has saved
@@ -30,6 +35,10 @@ function SwipeCard ({restaurantData, setRestaurantData, savedRestaurants, setSav
     currentIndexRef.current = val
   }
 
+
+
+  
+
   // to set currentIndex to restaurantData length when data is loaded in (to account for occasional delay in loading data)
   useEffect(() => {
     if (currentIndex == -1){
@@ -50,6 +59,10 @@ function SwipeCard ({restaurantData, setRestaurantData, savedRestaurants, setSav
     // update swiped and visible restaurants and current index
     setSwipedRestaurants((prev) => [...prev, restaurant]);
     setVisibleRestaurants((prev) => prev.filter((r) => r.name !== restaurant.name))
+
+    if (index - 1 < 0) {
+      setIsDeckEmpty(true);
+    }
 
     updateCurrentIndex(index - 1)
 
@@ -147,9 +160,20 @@ function SwipeCard ({restaurantData, setRestaurantData, savedRestaurants, setSav
         ))}
       </div>
       <div className='buttons'>
+        {!isDeckEmpty && (
         <button style={{ backgroundColor: !canSwipe && '#c3c4d3' }} onClick={() => swipe('left')}>Save!</button>
+
+      )}
+      {!isDeckEmpty && (
         <button style={{ backgroundColor: !canGoBack && '#c3c4d3' }} onClick={() => goBack()}>Undo swipe!</button>
+
+      )}
+      {!isDeckEmpty && (
         <button style={{ backgroundColor: !canSwipe && '#c3c4d3' }} onClick={() => swipe('right')}>Nope</button>
+      )}
+        {isDeckEmpty && (
+          <button onClick={() => navigate("/")}>Back to Main</button>
+        )}
       </div>
     </div>
   )

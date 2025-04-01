@@ -17,20 +17,29 @@ function App() {
   const [visibleRestaurants, setVisibleRestaurants] = useState([])
   const [currentIndex, setCurrentIndex] = useState(restaurants.length - 1)
   const [sortByRating, setSortByRating] = useState(true)
+  const [fetchedData, setFetchedData] = useState(false)
+  const [isDeckEmpty, setIsDeckEmpty] = useState(false);
 
    // get restaurant data and set state
   useEffect(() => {
     const fetchData = async () => {
       const rawRestaurantData = await getRestaurantData(postcode)
+      setFetchedData(true)
+      setIsDeckEmpty(false)
+     
+      
       
       const cuisines = await getCuisines();
       setCuisines(cuisines)
 
-      const data = await processData(sortByRating, selectedMinRating, selectedCuisines, rawRestaurantData);
-      setRestaurantData(data);
-      setCurrentIndex(restaurants.length - 1)
-    };
+      if (rawRestaurantData) {
+        const data = await processData(sortByRating, selectedMinRating, selectedCuisines, rawRestaurantData);
+        setRestaurantData(data);
+        setCurrentIndex(restaurants.length - 1)
+      }
 
+
+    };
     fetchData();
   }, [sortByRating, selectedMinRating, selectedCuisines, postcode]);
 
@@ -73,7 +82,7 @@ function App() {
               <input
                 type="text"
                 id="postcodeInput"
-                value={postcode}
+
                 onChange={handlePostCodeInput}
               />
 
@@ -119,9 +128,16 @@ function App() {
                 </div>
               </div>
 
-              <div class='buttons'>
-              <Link to="/main">
-                <button id='swipeButton'>Start Swiping</button>
+              {!fetchedData && (
+                <p>Please Enter a PostCode...</p>
+              )}
+
+              <div className="buttons">
+                <Link to="/main">
+                  <button
+                    id="swipeButton"
+                    disabled={!fetchedData}  // Disable button if postcode is empty
+                  >Start Swiping</button>
                 
               </Link>
               </div>
@@ -143,6 +159,9 @@ function App() {
               setVisibleRestaurants={setVisibleRestaurants}
               currentIndex={currentIndex}
               setCurrentIndex={setCurrentIndex}
+              setFetchedData={setFetchedData}
+              isDeckEmpty={isDeckEmpty}
+              setIsDeckEmpty={setIsDeckEmpty}
             />
           }
         />

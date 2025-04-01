@@ -7,7 +7,7 @@ import NavBar from './NavBar';
 
 function MainScreen({restaurantData, setRestaurantData, savedRestaurants, setSavedRestaurants,
                       swipedRestaurants, setSwipedRestaurants, visibleRestaurants, setVisibleRestaurants,
-                    currentIndex, setCurrentIndex}) {
+                    currentIndex, setCurrentIndex, setFetchedData, setPostcode, isDeckEmpty, setIsDeckEmpty}) {
 
   return (
     <div>
@@ -23,6 +23,10 @@ function MainScreen({restaurantData, setRestaurantData, savedRestaurants, setSav
       setSwipedRestaurants={setSwipedRestaurants}
       visibleRestaurants={visibleRestaurants}
       setVisibleRestaurants={setVisibleRestaurants}
+      setFetchedData={setFetchedData}
+      setPostcode={setPostcode}
+      isDeckEmpty={isDeckEmpty}
+      setIsDeckEmpty={setIsDeckEmpty}
       />
     </div>
   );
