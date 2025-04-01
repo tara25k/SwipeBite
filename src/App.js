@@ -79,7 +79,7 @@ function App() {
               <div class="information">
                 <p>Enter a postcode, optionally set some filters, and we'll show you 10 restaurants in your area!</p>
                 <p>You can either save or reject a restaurant, and see all of your saved restaurants by clicking the "Saved Restaurant" button.</p>
-    
+                <p>We'll show you the rating, address and a list of cuisines for that restaurant. You can scroll through the cuisines box to see more!</p>
               </div>
 
               <label htmlFor="postcodeInput">Enter PostCode: </label>

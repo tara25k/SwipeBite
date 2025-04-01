@@ -131,11 +131,11 @@ function SwipeCard ({restaurantData, setRestaurantData, savedRestaurants, setSav
               <p id='rating'>Rating: {restaurant.rating}⭐</p>
 
               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-              <img style={{ width: '200px', height: '100px', padding:'5px'}} src={`./foodImages/${restaurant.cuisines[0]}.jpg`} alt="image" />
+              <img style={{ width: '200px', height: '70px', padding:'5px'}} src={`./foodImages/${restaurant.cuisines[0]}.jpg`} alt="image" />
             </div>
 
 
-              {/* <p id='cuisines'>Cuisines:</p> */}
+              <p id='cuisines'>Cuisines ScrollBox:</p>
               <div style={{ 
               height: `${90 * 3}px`, // Only enough space for 3 items
               overflowY: 'auto', // Enables scrolling
