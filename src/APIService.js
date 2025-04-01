@@ -16,8 +16,7 @@ export const getRestaurantData = async (postcode='EC4M7RF') => {
 };
 
 
-export const processData = async (sortByRating, minRating, selectedCuisines, postcode) => {
-    const restaurantData = await getRestaurantData(postcode);
+export const processData = (sortByRating, minRating, selectedCuisines, restaurantData) => {
   
     // format restaurant data into array of objects with relevant information
     const restaurants = restaurantData.restaurants

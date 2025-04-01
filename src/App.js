@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import {getCuisines, processData} from './APIService'
+import {getRestaurantData, getCuisines, processData} from './APIService'
 import MainScreen from './MainScreen'
 import SavedRestaurantsScreen from './SavedRestaurantsScreen'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
@@ -21,11 +21,12 @@ function App() {
    // get restaurant data and set state
   useEffect(() => {
     const fetchData = async () => {
+      const rawRestaurantData = await getRestaurantData(postcode)
       
       const cuisines = await getCuisines();
       setCuisines(cuisines)
 
-      const data = await processData(sortByRating, selectedMinRating, selectedCuisines, postcode);
+      const data = await processData(sortByRating, selectedMinRating, selectedCuisines, rawRestaurantData);
       setRestaurantData(data);
       setCurrentIndex(restaurants.length - 1)
     };
@@ -118,12 +119,12 @@ function App() {
                 </div>
               </div>
 
-
+              <div class='buttons'>
               <Link to="/main">
-                <div class='buttons'>
-                <button>Start Swiping</button>
-                </div>
+                <button id='swipeButton'>Start Swiping</button>
+                
               </Link>
+              </div>
             </div>
           }
         />
