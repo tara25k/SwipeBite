@@ -14,6 +14,7 @@ Seeing restaurants one by one is less overwhelming than seeing several options a
 - Run ``npm install --save --legacy-peer-deps``
 - Run ``npm start``
 - After a minute or so, the application should open in your browser!
+(Ensure you have a consistent internet connection so it can connect to the API)
 
 ## TASK ASSUMPTIONS
 - I was unsure whether the postcode had to be provided by the user or not, so I had it be an input field just in case.

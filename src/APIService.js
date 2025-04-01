@@ -1,4 +1,4 @@
-export const getRestaurantData = async (postcode='EC4M7RF') => {
+export const getRestaurantData = async (postcode) => {
     const url = `https://proxy.corsfix.com/?https://uk.api.just-eat.io/discovery/uk/restaurants/enriched/bypostcode/${postcode}`;
 
     try {

@@ -116,6 +116,8 @@ h2 {
   
 }
 
+
+
 .card li {
   word-wrap: break-word;
   text-align: center;
@@ -163,6 +165,7 @@ h2 {
 
 .buttons button:hover {
   transform: scale(1.05);
+  cursor: pointer;
 }
 
 @keyframes popup {
@@ -218,6 +221,14 @@ label{
   gap: 15px;
   justify-content: center;
   margin-top: 20px;
+}
+
+#disabledButton {
+  color: lightgrey;
+}
+
+#disabledButton:hover {
+  transform: none;
 }
 
 .restaurantCard {

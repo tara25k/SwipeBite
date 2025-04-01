@@ -12,7 +12,7 @@ function App() {
   const [selectedMinRating, setSelectedMinRating] = useState(3);
   const [cuisines, setCuisines] = useState([]); // list of all cuisines
   const [selectedCuisines, setSelectedCuisines] = useState([]) // list of chosen cuisine in dropdown list
-  const [postcode, setPostcode] = useState()
+  const [postcode, setPostcode] = useState('')
   const [swipedRestaurants, setSwipedRestaurants] = useState([])
   const [visibleRestaurants, setVisibleRestaurants] = useState([])
   const [currentIndex, setCurrentIndex] = useState(restaurants.length - 1)
@@ -23,17 +23,18 @@ function App() {
    // get restaurant data and set state
   useEffect(() => {
     const fetchData = async () => {
-      const rawRestaurantData = await getRestaurantData(postcode)
-      setFetchedData(true)
-      setIsDeckEmpty(false)
-     
-      const cuisines = await getCuisines();
-      setCuisines(cuisines)
+      if (postcode != '') {
+        const rawRestaurantData = await getRestaurantData(postcode)
+        setFetchedData(true)
+        setIsDeckEmpty(false)
+      
+        const cuisines = await getCuisines();
+        setCuisines(cuisines)
 
-      if (rawRestaurantData) {
-        const data = await processData(sortByRating, selectedMinRating, selectedCuisines, rawRestaurantData);
-        setRestaurantData(data);
-        setCurrentIndex(restaurants.length - 1)
+
+          const data = await processData(sortByRating, selectedMinRating, selectedCuisines, rawRestaurantData);
+          setRestaurantData(data);
+          setCurrentIndex(restaurants.length - 1)
       }
 
 
@@ -131,16 +132,12 @@ function App() {
                   />
                 </div>
               </div>
-
-              {!fetchedData && (
-                <p>Please Enter a PostCode...</p>
-              )}
-
+              
               <div class='row'>
                 <div className="buttons">
                   <Link to="/main">
                     <button
-                      id="swipeButton"
+                      id={!fetchedData ? "disabledButton":"swipeButton"}
                       disabled={!fetchedData}  // Disable button if postcode is empty
                     >Start Swiping</button>
                 </Link>
@@ -148,11 +145,14 @@ function App() {
                 <div className="buttons">
                   <Link to="/saved">
                     <button
-                      id="swipeButton"
                     >Saved Restaurants</button>
                 </Link>
                 </div>
               </div>
+              {!fetchedData && (
+                <p style={{color: 'red', fontSize:'20px'}}>Please Enter a PostCode...</p>
+              )}
+
             </div>
           }
         />
