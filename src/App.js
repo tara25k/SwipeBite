@@ -28,7 +28,7 @@ function App() {
         setFetchedData(true)
         setIsDeckEmpty(false)
       
-        const cuisines = await getCuisines();
+        const cuisines = await getCuisines(rawRestaurantData);
         setCuisines(cuisines)
 
 

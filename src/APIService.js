@@ -58,8 +58,7 @@ export const processData = (sortByRating, minRating, selectedCuisines, restauran
     return slicedData;
   }
 
-export const getCuisines = async () => {
-    const restaurantData = await getRestaurantData();
+export const getCuisines = async (restaurantData) => {
 
     const allCuisines = []; // stores names of all cuisines
     
