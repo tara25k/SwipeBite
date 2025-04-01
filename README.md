@@ -9,7 +9,7 @@ Every time a restaurant is saved, it can be viewed in your "saved restaurants" p
 Seeing restaurants one by one is less overwhelming than seeing several options at once, and means that users are more likely to make an informed choice about where they actually want to eat!
 
 ## RUNNING THE APPLICATION
-- Clone the github repository (copy link from green 'Code' button on github, navigate to the desired folder and use ``git clone https://github.com/tara25k/JET-Restaurants.git``)
+- Clone the github repository into a directory you want using``git clone https://github.com/tara25k/JET-Restaurants.git``
 - ``cd`` into the project directory
 - Run ``npm install --save --legacy-peer-deps``
 - Run ``npm start``
