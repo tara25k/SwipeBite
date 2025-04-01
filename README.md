@@ -30,5 +30,6 @@ If I had more time, I would have:
 - Added a 'delete' button on the saved restaurants screen.
 - Removed non-cuisines from the cuisines list, such as "two for one" or "tuesday deals", and added these to a separate section.
     - This could have been done using RegEx to search for items containing common words, such as "deal" or "coupon".
+- Added an option to go back to the beginning and see past choices at the end of the card deck
 - Added relevant images for each restaurant, ensuring that each image is fair use and abides by copyright.
 - Added further unit tests for the frontend, such as testing that the swiping mechanism always works and saved restaurants are always saved correctly.
