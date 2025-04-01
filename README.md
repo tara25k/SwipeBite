@@ -1,6 +1,6 @@
 
 # WELCOME TO SWIPEBITE!
-This is an app that loads in data from the JustEat restaurant API (given a postcode and some optional filters), and presents you with 10 restaurants in a card-swiping format.
+SwipeBite is a React application that loads in data from the JustEat restaurant API (given a postcode and some optional filters), and presents you with 10 restaurants in a card-swiping format.
 
 Each time you see a restaurant card, you are presented with information about the ratings, cuisines, and location, and can choose to 'save' it for later or dismiss it.
 
