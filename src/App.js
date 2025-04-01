@@ -74,7 +74,7 @@ function App() {
           path="/"
           element={
             <div>
-              <h1>Welcome to Restaurant Finder!</h1>
+              <h1>Welcome to SwipeBite!</h1>
 
               <div class="information">
                 <p>Enter a postcode, optionally set some filters, and we'll show you 10 restaurants in your area!</p>
