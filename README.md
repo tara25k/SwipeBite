@@ -9,12 +9,12 @@ Every time a restaurant is saved, it can be viewed in your "saved restaurants" p
 Seeing restaurants one by one is less overwhelming than seeing several options at once, and means that users are more likely to make an informed choice about where they actually want to eat!
 
 ## RUNNING THE APPLICATION
-- Ensure you have Node.js installed (https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
-- Clone the github repository into a directory you want using``git clone https://github.com/tara25k/JET-Restaurants.git``
-- ``cd`` into the project directory
-- Run ``npm install --save --legacy-peer-deps``
-- Run ``npm start``
-- After a minute or so, the application should open in your browser!
+1. Ensure you have Node.js installed (https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)n 
+2. Clone the github repository into a directory you want using``git clone https://github.com/tara25k/JET-Restaurants.git``
+3. ``cd`` into the project directory
+4. Run ``npm install --save --legacy-peer-deps``
+5. Run ``npm start``
+6. After a minute or so, the application should open in your browser!
 (Ensure you have a consistent internet connection so it can connect to the API)
 
 ## TASK ASSUMPTIONS
