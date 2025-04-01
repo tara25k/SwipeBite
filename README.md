@@ -10,7 +10,7 @@ Seeing restaurants one by one is less overwhelming than seeing several options a
 
 ## RUNNING THE APPLICATION
 1. Ensure you have Node.js installed (https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)n 
-2. Clone the github repository into a directory you want using``https://github.com/tara25k/SwipeBite.git``
+2. Clone the github repository into a directory you want using``git clone https://github.com/tara25k/SwipeBite.git``
 3. ``cd`` into the project directory
 4. Run ``npm install --save --legacy-peer-deps``
 5. Run ``npm start``
