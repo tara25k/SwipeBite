@@ -32,7 +32,7 @@
 }
 
 .row {
-  flex-direction: row !important;
+  display: flex;
 }
 
 .row>* {
@@ -234,4 +234,10 @@ label{
 .restaurantCard:hover {
   transform: scale(1.05);
   border-color: #e66465;
+}
+
+.information {
+  color: white;
+
+  margin: 10px
 }

@@ -47,10 +47,13 @@ function SavedRestaurantsScreen({ savedRestaurants }) {
   )}
 
   <nav>
+    <div class='row'>
        <div className='buttons'>
       <button style={{backgroundColor: '#689c09'}}onClick={() => navigate("/main")}>Back to Swiping</button>
+      <button style={{backgroundColor: '#689c09'}}onClick={() => navigate("/")}>Back to Main Screen</button>
       </div>
-    </nav>
+      </div>
+  </nav>
 </div>
   );
 }
