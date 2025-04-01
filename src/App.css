@@ -157,6 +157,9 @@ h2 {
   width: 160px;
   box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.10);
 }
+#swipeButton {
+  text-decoration: none;
+}
 
 .buttons button:hover {
   transform: scale(1.05);
@@ -211,23 +214,12 @@ label{
 
 .restaurantGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Exactly 3 columns per row */
+  grid-template-columns: repeat(3, 1fr); 
   gap: 15px;
   justify-content: center;
   margin-top: 20px;
 }
 
-@media (max-width: 768px) {
-  .restaurantGrid {
-    grid-template-columns: repeat(2, 1fr); /* 2 columns on tablets */
-  }
-}
-
-@media (max-width: 500px) {
-  .restaurantGrid {
-    grid-template-columns: repeat(1, 1fr); /* 1 column on small screens */
-  }
-}
 .restaurantCard {
   background-color: lightgreen;
   padding: 10px;
