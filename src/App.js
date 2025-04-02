@@ -32,9 +32,9 @@ function App() {
         setCuisines(cuisines)
 
 
-          const data = await processData(sortByRating, selectedMinRating, selectedCuisines, rawRestaurantData);
-          setRestaurantData(data);
-          setCurrentIndex(restaurants.length - 1)
+        const data = await processData(sortByRating, selectedMinRating, selectedCuisines, rawRestaurantData);
+        setRestaurantData(data);
+        setCurrentIndex(restaurants.length - 1)
       }
 
 
@@ -75,6 +75,10 @@ function App() {
           path="/"
           element={
             <div>
+              <header className="header">
+                <img src="/logo.png" alt="App Logo" className="app-logo" />
+              </header>
+
               <h1>Welcome to SwipeBite!</h1>
 
               <div class="information">
