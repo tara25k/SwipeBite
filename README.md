@@ -1,4 +1,4 @@
-![App Logo](https://raw.githubusercontent.com/tara25k/SwipeBite/public/logo.png)
+![App Logo](https://raw.githubusercontent.com/tara25k/SwipeBite/main/public/logo.png)
 
 # Welcome to SwipeBite!
 SwipeBite is a React application that loads in data from the JustEat restaurant API (given a postcode and some optional filters), and presents you with 10 restaurants in a card-swiping format.
