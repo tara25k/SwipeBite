@@ -136,6 +136,10 @@ function App() {
                   />
                 </div>
               </div>
+
+              {!fetchedData && (
+                <p style={{color: 'red', fontSize:'20px'}}>Please Enter a PostCode...</p>
+              )}
               
               <div class='row'>
                 <div className="buttons">
@@ -153,9 +157,7 @@ function App() {
                 </Link>
                 </div>
               </div>
-              {!fetchedData && (
-                <p style={{color: 'red', fontSize:'20px'}}>Please Enter a PostCode...</p>
-              )}
+
 
             </div>
           }
